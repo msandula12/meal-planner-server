@@ -3,7 +3,12 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 
+// Import routes
+import scheduleRoutes from './routes/schedule.js';
+
+// Initiate Express app
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 // Load .env variables
 dotenv.config();
@@ -15,7 +20,9 @@ app.use(express.urlencoded({ extended: true, limit: '30mb' }));
 // Allow CORS
 app.use(cors());
 
-const PORT = process.env.PORT || 5000;
+// Define routes
+app.get('/', (_, res) => res.send('MealPlanner API'));
+app.use('/schedule', scheduleRoutes);
 
 // Connect to database
 mongoose
