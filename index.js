@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 
 // Import routes
 import scheduleRoutes from './routes/schedule.js';
+import usersRoutes from './routes/users.js';
 
 // Initiate Express app
 const app = express();
@@ -23,6 +24,7 @@ app.use(cors());
 // Define routes
 app.get('/', (_, res) => res.send('MealPlanner API'));
 app.use('/schedule', scheduleRoutes);
+app.use('/users', usersRoutes);
 
 // Connect to database
 mongoose
