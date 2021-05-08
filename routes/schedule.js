@@ -1,10 +1,11 @@
 import express from 'express';
 
 // Controllers
-import { getSchedule } from '../controllers/schedule.js';
+import { createMeal, getSchedule } from '../controllers/schedule.js';
 
 const router = express.Router();
 
-router.get('/', getSchedule);
+router.get('/:user', getSchedule);
+router.post('/meal/:user', createMeal);
 
 export default router;

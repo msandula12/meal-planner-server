@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 
 const mealSchema = mongoose.Schema({
   dates: [Date],
+  name: {
+    required: true,
+    type: String,
+  },
   type: {
     enum: ['breakfast', 'lunch', 'dinner'],
     required: true,
