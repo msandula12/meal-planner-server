@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import Meal from '../models/meal.js';
 
 export const createMeal = async (req, res) => {
@@ -19,10 +21,15 @@ export const createMeal = async (req, res) => {
 export const getSchedule = async (req, res) => {
   const { user } = req.params;
   try {
+    const startOfThisWeek = dayjs().startOf('week').add(1, 'days');
+    const endOfNextWeek = startOfThisWeek
+      .add(1, 'week')
+      .endOf('week')
+      .add(1, 'days');
     const schedule = await Meal.find({
       dates: {
-        $gte: '2021-05-03',
-        $lte: '2021-05-16',
+        $gte: startOfThisWeek.format('YYYY-MM-DD'),
+        $lte: endOfNextWeek.format('YYYY-MM-DD'),
       },
       user,
     });
