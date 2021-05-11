@@ -6,12 +6,13 @@ const daySchema = mongoose.Schema({
     required: true,
     type: Date,
   },
-  meals: [
-    {
-      ref: 'Meal',
-      type: mongoose.Schema.Types.ObjectId,
-    },
-  ],
+  breakfast: String,
+  lunch: String,
+  dinner: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 const Day = mongoose.model('Day', daySchema);
