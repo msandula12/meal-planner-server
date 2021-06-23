@@ -7,12 +7,11 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 6;
 
 export const signIn = async (req, res) => {
-  const { password, email } = req.body;
-  console.log('req.body: ', req.body);
+  const { email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
-      return res.status(404).json({ email: 'User does not exist.' });
+      return res.status(400).json({ email: 'User does not exist.' });
     }
     const isPasswordCorrect = await bcrypt.compare(
       password,
@@ -35,7 +34,8 @@ export const signIn = async (req, res) => {
 };
 
 export const signUp = async (req, res) => {
-  const { confirmPassword, email, password } = req.body;
+  const { email, name, password, confirmPassword } = req.body;
+  console.log('req.body: ', req.body);
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -45,7 +45,7 @@ export const signUp = async (req, res) => {
     }
     if (!EMAIL_REGEX.test(email)) {
       return res.status(400).json({
-        message: 'Must enter a valid email address.',
+        email: 'Must enter a valid email address.',
       });
     }
     if (password.length < MIN_PASSWORD_LENGTH) {
@@ -59,10 +59,11 @@ export const signUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = await User.create({
       email,
+      name,
       password: hashedPassword,
     });
     const token = jwt.sign(
-      { email: newUser.email, id: newUser._id },
+      { email: newUser.email, name: newUser.name, id: newUser._id },
       process.env.JWT_SECRET,
       {
         expiresIn: '1h',
