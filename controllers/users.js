@@ -3,10 +3,14 @@ import jwt from 'jsonwebtoken';
 
 import User from '../models/user.js';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MIN_PASSWORD_LENGTH = 6;
+
 export const signIn = async (req, res) => {
-  const { password, username } = req.body;
+  const { password, email } = req.body;
+  console.log('req.body: ', req.body);
   try {
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ email });
     if (!existingUser) {
       return res.status(404).json({ message: 'User does not exist.' });
     }
@@ -18,7 +22,7 @@ export const signIn = async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials.' });
     }
     const token = jwt.sign(
-      { username: existingUser.username, id: existingUser._id },
+      { email: existingUser.email, id: existingUser._id },
       process.env.JWT_SECRET,
       {
         expiresIn: '1h',
@@ -31,25 +35,32 @@ export const signIn = async (req, res) => {
 };
 
 export const signUp = async (req, res) => {
-  const { confirmPassword, password, username } = req.body;
+  const { confirmPassword, email, password } = req.body;
   try {
-    const existingUser = await User.findOne({ username });
-    console.log('existingUser: ', existingUser);
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      console.log('USER EXISTS');
       return res.status(400).json({ message: 'User already exists.' });
     }
+    if (!EMAIL_REGEX.test(email)) {
+      return res.status(400).json({
+        message: 'Must enter a valid email address.',
+      });
+    }
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      return res.status(400).json({
+        message: `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`,
+      });
+    }
     if (password !== confirmPassword) {
-      console.log('PASSWORDS MUST MATCH');
       return res.status(400).json({ message: 'Passwords must match.' });
     }
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = await User.create({
+      email,
       password: hashedPassword,
-      username,
     });
     const token = jwt.sign(
-      { username: newUser.username, id: newUser._id },
+      { email: newUser.email, id: newUser._id },
       process.env.JWT_SECRET,
       {
         expiresIn: '1h',
