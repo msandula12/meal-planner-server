@@ -6,9 +6,14 @@ const daySchema = mongoose.Schema({
     required: true,
     type: Date,
   },
-  breakfast: String,
-  lunch: String,
-  dinner: String,
+  meals: {
+    type: Map,
+    of: new mongoose.Schema({
+      breakfast: String,
+      lunch: String,
+      dinner: String,
+    }),
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
