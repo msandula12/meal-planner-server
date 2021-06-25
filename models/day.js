@@ -1,11 +1,5 @@
 import mongoose from 'mongoose';
 
-const mealSchema = mongoose.Schema({
-  breakfast: String,
-  lunch: String,
-  dinner: String,
-});
-
 const daySchema = mongoose.Schema({
   day: {
     default: new Date(),
@@ -13,7 +7,8 @@ const daySchema = mongoose.Schema({
     type: Date,
   },
   meals: {
-    type: mealSchema,
+    type: Map,
+    of: String,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
