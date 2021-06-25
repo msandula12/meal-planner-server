@@ -1,18 +1,19 @@
 import mongoose from 'mongoose';
 
+const mealSchema = mongoose.Schema({
+  breakfast: String,
+  lunch: String,
+  dinner: String,
+});
+
 const daySchema = mongoose.Schema({
-  date: {
+  day: {
     default: new Date(),
     required: true,
     type: Date,
   },
   meals: {
-    type: Map,
-    of: new mongoose.Schema({
-      breakfast: String,
-      lunch: String,
-      dinner: String,
-    }),
+    type: mealSchema,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
