@@ -4,4 +4,6 @@
 /node_modules
 
 # misc
-.env
+npm-debug.log
+.DS_Store
+/*.env
