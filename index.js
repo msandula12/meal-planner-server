@@ -7,12 +7,12 @@ import mongoose from 'mongoose';
 import scheduleRoutes from './routes/schedule.js';
 import usersRoutes from './routes/users.js';
 
+// Load .env variables
+dotenv.config();
+
 // Initiate Express app
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-// Load .env variables
-dotenv.config();
 
 // Parsing middleware
 app.use(express.json({ extended: true, limit: '30mb' }));
