@@ -2,6 +2,8 @@
 
 Backend API for the [MealPlanner frontend](https://github.com/msandula12/meal-planner-client).
 
+Deployed on Heroku: [https://mealplanner-server.herokuapp.com](https://mealplanner-server.herokuapp.com)
+
 ## Getting started
 
 To run this project locally:
@@ -15,8 +17,9 @@ To run this project locally:
 Express application that points to a MongoDB database.
 
 ### Dependencies
-- [bcryptjs](https://github.com/dcodeIO/bcrypt.js) - For encrypting/decrypting user passwords 
+
+- [bcryptjs](https://github.com/dcodeIO/bcrypt.js) - For encrypting/decrypting user passwords
 - [dayjs](https://github.com/iamkun/dayjs) - For parsing/formatting dates
 - [expressjs](https://github.com/expressjs/express) - For handling and routing HTTP requests
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - For generating JWTs used by authentication
-- [mongoose](https://github.com/Automattic/mongoose) - For modeling and mapping MongoDB data to javascript 
+- [mongoose](https://github.com/Automattic/mongoose) - For modeling and mapping MongoDB data to javascript
