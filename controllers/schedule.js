@@ -5,15 +5,18 @@ import Day from '../models/day.js';
 export const getSchedule = async (req, res) => {
   const { user } = req.params;
   try {
-    const startOfThisWeek = dayjs().startOf('week');
+    const startOfThisWeek = dayjs()
+      .subtract(1, 'day')
+      .startOf('week')
+      .add(1, 'days');
     const endOfNextWeek = startOfThisWeek
       .add(1, 'week')
       .endOf('week')
       .add(1, 'days');
     const schedule = await Day.find({
       day: {
-        $gt: startOfThisWeek,
-        $lt: endOfNextWeek,
+        $gte: startOfThisWeek,
+        $lte: endOfNextWeek,
       },
       user,
     });
