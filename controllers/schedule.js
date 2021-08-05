@@ -1,3 +1,4 @@
+import chron from 'node-cron';
 import dayjs from 'dayjs';
 
 import Day from '../models/day.js';
@@ -70,3 +71,9 @@ export const updateDay = async (req, res) => {
     return res.status(404).json({ message: error.message });
   }
 };
+
+// Daily scheduled task at 3 a.m. to delete expired days
+chron.schedule('0 3 * * *', () => {
+  console.log('Delete expired days.');
+  deleteExpiredDays();
+});
