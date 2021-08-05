@@ -2,6 +2,20 @@ import dayjs from 'dayjs';
 
 import Day from '../models/day.js';
 
+export const deleteExpiredDays = async (_req, res) => {
+  const EXPIRY = 30;
+  try {
+    const result = await Day.deleteMany({
+      day: {
+        $lte: dayjs().subtract(EXPIRY, 'day'),
+      },
+    });
+    return res.status(200).json({ result });
+  } catch (error) {
+    return res.status(404).json({ message: error.message });
+  }
+};
+
 export const getSchedule = async (req, res) => {
   const { user } = req.params;
   try {
